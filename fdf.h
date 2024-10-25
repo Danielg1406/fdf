@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:04:41 by dgomez-a          #+#    #+#             */
-/*   Updated: 2024/10/23 16:57:31 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:25:41 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define FDF_H
 
 # define WIDTH 800
-# define HEIGHT 500
+# define HEIGHT 600
 
 # include "libft.h"
 # include "minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <time.h>
+# include <math.h>
 # include <stdio.h>
 # include <X11/keysym.h>
 
@@ -27,16 +28,31 @@ typedef struct s_img
 {
 	void	*img_ptr;
 	int	*data;
-	int		bpp;
-	int		line_length;
+	int		bits_per_pixel;
+	int		size_line;
 	int		endian;
 }		t_img;
 
 typedef struct s_mlx
 {
-	void	*init;
-	void	*window;
+	void	*mlx_ptr;
+	void	*win_ptr;
 	t_img	img;
 }		t_mlx;
+
+typedef struct s_p3D
+{
+	float	x;
+	float	y;
+	float	z;
+}		t_p3D;
+
+typedef struct	s_vertex
+{
+	t_p3D	local;
+	t_p3D	world;
+	t_p3D	aligned;
+}		t_vertex;
+
 
 #endif

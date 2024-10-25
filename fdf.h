@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:04:41 by dgomez-a          #+#    #+#             */
-/*   Updated: 2024/10/25 16:25:41 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:46:17 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef struct s_mlx
 	void	*win_ptr;
 	t_img	img;
 }		t_mlx;
+
+typedef struct s_p2D
+{
+	double	x;
+	double	y;
+}		t_p2D;
 
 typedef struct s_p3D
 {

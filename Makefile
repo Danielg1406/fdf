@@ -25,7 +25,7 @@ $(MLX):
 	$(MAKE) -C $(MLX_DIR)
 
 $(NAME): $(OBJS) $(HEADER)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) -lmlx -lXext -lX11 -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) -lmlx -lXext -lX11 -lm -o $(NAME)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -I $(LIBFT_DIR) -I $(MLX_DIR) -I . -c $< -o $@

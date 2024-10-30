@@ -19,6 +19,7 @@ RM = rm -f
 all: $(LIBFT) $(MLX) $(NAME)
 
 $(LIBFT):
+	@git submodule update --init --recursive minilibx-linux
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX):

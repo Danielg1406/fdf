@@ -26,21 +26,16 @@ int	handle_input(int keysym, t_mlx *mlx)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	t_mlx	mlx;
-	int			x_ini_mouse;
-	int			y_ini_mouse;
-	int			degrees;
-	double			center_x = 400;
-	double			center_y = 300;
-	double			angle;
-	double			mouse_x;
-	double			mouse_y;
-	int			y;
-	int			x;
+//	t_mlx	mlx;
+	t_map	map;
+//	int			y;
+//	int			x;
 
-	y = 49;
+	if (argc < 2)
+		return (1);
+/*	y = 49;
 	srand(time(NULL));
 	mlx.mlx_ptr = mlx_init();
 	if (mlx.mlx_ptr == NULL)
@@ -52,7 +47,6 @@ int	main(void)
 		free(mlx.mlx_ptr);
 		return (1);
 	}
-	mlx_key_hook(mlx.win_ptr, handle_input, &mlx);
 	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, WIDTH, HEIGHT);
 	mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bits_per_pixel, &mlx.img.size_line, &mlx.img.endian);
 	while(++y < HEIGHT * 0.9)
@@ -68,20 +62,10 @@ int	main(void)
 	}
 	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.img.img_ptr, 0, 0);
 	mlx_string_put(mlx.mlx_ptr, mlx.win_ptr, WIDTH * 0.8, HEIGHT * 0.95, rand(), "Daniel");
-	mlx_pixel_put(mlx.mlx_ptr, mlx.win_ptr, center_x, center_y, 0x00FFFFFF);
-	while(1)
-	{
-		mlx_mouse_get_pos(mlx.mlx_ptr, mlx.win_ptr, &x_ini_mouse, &y_ini_mouse);
-		mouse_x = (double)x_ini_mouse;
-		mouse_y = (double)y_ini_mouse;
-		if(mouse_x >= 0 && mouse_x <= 800 && mouse_y >= 0 && mouse_y <= 600)
-		{
-			angle = atan2(mouse_y - center_y, mouse_x - center_x);
-			degrees = angle * (180.0 / M_PI);
-			printf("angle: %d\n", degrees);
-		}
-	}
-	mlx_loop(mlx.mlx_ptr);
-	free(mlx.mlx_ptr);
+	mlx_key_hook(mlx.win_ptr, handle_input, &mlx);
+*/
+	ft_define_map(&map, argv[1]);
+//	mlx_loop(mlx.mlx_ptr);
+//	free(mlx.mlx_ptr);
 	return (0);
 }

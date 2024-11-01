@@ -17,8 +17,10 @@
 # define HEIGHT 600
 
 # include "libft.h"
+# include "get_next_line/get_next_line.h"
 # include "minilibx-linux/mlx.h"
 # include <stdlib.h>
+# include <unistd.h>
 # include <time.h>
 # include <math.h>
 # include <stdio.h>
@@ -60,5 +62,16 @@ typedef struct	s_vertex
 	t_p3D	aligned;
 }		t_vertex;
 
+typedef struct s_map
+{
+	int	height;
+	int	width;
+	t_p3D	coordinates;
+	t_p2D	limits;
+	unsigned int	color;
+}		t_map;
+
+// MAP
+int	ft_define_map(t_map *map, char *file_name);
 
 #endif

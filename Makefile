@@ -5,23 +5,27 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
+GNL_DIR = get_next_line
+GNL_SRCS = $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c
 MLX_DIR = minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 HEADER = fdf.h
 
-SRCS = main.c
+SRCS = main.c map.c $(GNL_SRCS)
 
 OBJS = $(SRCS:%.c=%.o)
 
 RM = rm -f
 
-all: $(LIBFT) $(MLX) $(NAME)
+all: submodules $(LIBFT) $(MLX) $(NAME)
+
+submodules:
+	@git submodule update --init --recursive get_next_line
+	@git submodule update --init --recursive minilibx-linux
 
 $(LIBFT):
-	@git submodule update --init --recursive minilibx-linux
 	$(MAKE) -C $(LIBFT_DIR)
-
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
 
@@ -29,7 +33,7 @@ $(NAME): $(OBJS) $(HEADER)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) -lXext -lX11 -lm -o $(NAME)
 
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -I $(LIBFT_DIR) -I $(MLX_DIR) -I . -c $< -o $@
+	$(CC) $(CFLAGS) -I $(LIBFT_DIR) -I $(MLX_DIR) -I $(GNL_DIR) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
@@ -41,4 +45,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re submodules

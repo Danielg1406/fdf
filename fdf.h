@@ -66,6 +66,7 @@ typedef struct s_map
 {
 	int	height;
 	int	width;
+	int	**grid;
 	t_p3D	coordinates;
 	t_p2D	limits;
 	unsigned int	color;

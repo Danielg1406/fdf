@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-
+/*
 void	set_hooks(t_mlx *mlx)
 {
 	mlx_do_key_autorepeatoff(mlx->mlx_ptr);
@@ -38,6 +38,20 @@ void	iso(int *x, int *y, int z)
 	previous_y = *y;
 	*x = (previous_x - previous_y) * cos(0.523599);
 	*y = -z + (previous_x + previous_y) * sin(0.523599);
+}
+*/
+int	handle_key(int keysym, t_mlx *mlx)
+{
+	if (keysym == XK_Escape)
+	{
+		printf("the %d key (ESC) has been pressed\n", keysym);
+		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+		mlx_destroy_display(mlx->mlx_ptr);
+		free(mlx->mlx_ptr);
+		exit(1);
+	}
+	printf("the %d key has been pressed\n", keysym);
+	return (0);
 }
 
 int	handle_mouse(t_mlx *mlx)

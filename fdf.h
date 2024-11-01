@@ -74,4 +74,7 @@ typedef struct s_map
 // MAP
 int	ft_define_map(t_map *map, char *file_name);
 
+// HOOKS
+int	handle_key(int keysym, t_mlx *mlx);
+
 #endif

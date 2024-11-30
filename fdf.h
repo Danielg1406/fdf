@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:04:41 by dgomez-a          #+#    #+#             */
-/*   Updated: 2024/10/25 17:46:17 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:10:39 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,35 +42,26 @@ typedef struct s_mlx
 	t_img	img;
 }		t_mlx;
 
-typedef struct s_p2D
-{
-	double	x;
-	double	y;
-}		t_p2D;
-
 typedef struct s_p3D
 {
 	float	x;
 	float	y;
 	float	z;
+	unsigned int	color;
 }		t_p3D;
-
-typedef struct	s_vertex
-{
-	t_p3D	local;
-	t_p3D	world;
-	t_p3D	aligned;
-}		t_vertex;
 
 typedef struct s_map
 {
 	int	height;
 	int	width;
-	int	**grid;
-	t_p3D	coordinates;
-	t_p2D	limits;
-	unsigned int	color;
+	t_p3D	**grid;
 }		t_map;
+
+typedef struct s_fdf
+{
+	t_mlx	mlx;
+	t_map	map;
+}		t_fdf;
 
 // MAP
 int	ft_define_map(t_map *map, char *file_name);

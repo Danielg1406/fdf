@@ -12,7 +12,7 @@ MLX = $(MLX_DIR)/libmlx_Linux.a
 
 HEADER = fdf.h
 
-SRCS = main.c map.c $(GNL_SRCS) \
+SRCS = main.c map.c rendering.c $(GNL_SRCS) \
        utils.c
 
 OBJS = $(SRCS:%.c=%.o)

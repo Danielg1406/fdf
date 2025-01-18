@@ -6,72 +6,81 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:24:16 by dgomez-a          #+#    #+#             */
-/*   Updated: 2024/10/25 17:21:28 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 16:52:09 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-/*
-void	set_hooks(t_mlx *mlx)
-{
-	mlx_do_key_autorepeatoff(mlx->mlx_ptr);
-	mlx_hook(mlx->win_ptr, 2, 0, key_press_hook, mlx);
-	mlx_hook(mlx->win_ptr, 3, 0, key_release_hook, mlx);
-	mlx_hook(mlx->win_ptr, 4, 0, mouse_press_hook, mlx);
-	mlx_hook(mlx->win_ptr, 5, 0, mouse_release_hook, mlx);
-	mlx_hook(mlx->win_ptr, 6, 0, motion_hook, mlx);
-	mlx_hook(mlx->win_ptr, 12, 0, expose_hook, mlx);
-	mlx_hook(mlx->win_ptr, 17, 0, exit_hook, mlx);
-}
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-void	iso(int *x, int *y, int z)
+void	iso_projection(t_p3D *point)
 {
 	int	previous_x;
 	int	previous_y;
-	
-	previous_x = *x;
-	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.523599);
-	*y = -z + (previous_x + previous_y) * sin(0.523599);
+
+	previous_x = point->x;
+	previous_y = point->y;
+	point->x = (previous_x - previous_y) * cos(0.523599);
+	point->y = -point->z + (previous_x + previous_y) * sin(0.523599);
+}
+
+void	center_map(t_map *map)
+{
+	int	map_pixel_width;
+	int	map_pixel_height;
+
+	map_pixel_width = map->width * map->scale;
+	map_pixel_height = map->height * map->scale;
+	map->offset_x = (WIDTH - map_pixel_width) / 2;
+	map->offset_y = (HEIGHT - map_pixel_height) / 2;
+}
+
+void	scale_map(t_map *map)
+{
+	int	max_scale_width;
+	int	max_scale_height;
+
+	max_scale_width = WIDTH / (map->width + 1);
+	max_scale_height = HEIGHT / (map->height + 1);
+	if (max_scale_width < max_scale_height)
+		map->scale = max_scale_width;
+	else
+		map->scale = max_scale_height;
+}
+
+void	apply_transformations(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			map->grid[i][j].x = round(map->grid[i][j].x * map->scale)
+				+ map->offset_x;
+			map->grid[i][j].y = round(map->grid[i][j].y * map->scale)
+				+ map->offset_y;
+			j++;
+		}
+		i++;
+	}
+}
+/*
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 */
 int	handle_key(int keysym, t_mlx *mlx)
 {
 	if (keysym == XK_Escape)
 	{
-		printf("the %d key (ESC) has been pressed\n", keysym);
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
 		mlx_destroy_display(mlx->mlx_ptr);
 		free(mlx->mlx_ptr);
 		exit(1);
 	}
-	printf("the %d key has been pressed\n", keysym);
 	return (0);
 }
-
-int	handle_mouse(t_mlx *mlx)
-{
-	int			x_ini_mouse;
-	int			y_ini_mouse;
-	double			center_x;
-	double			center_y;
-	double			angle;
-	int			degrees;
-	
-	printf("handle mouse function\n");
-	center_x = WIDTH / 2;
-	center_y = HEIGHT / 2;
-	mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, center_x, center_y, 0x00FFFFFF);
-	mlx_mouse_get_pos(mlx->mlx_ptr, mlx->win_ptr, &x_ini_mouse, &y_ini_mouse);
-	angle = atan2((double)y_ini_mouse - center_y, (double)x_ini_mouse - center_x);
-	degrees = angle * (180.0 / M_PI);
-	if(x_ini_mouse >= 0 && x_ini_mouse <= WIDTH && y_ini_mouse >= 0 && y_ini_mouse <= HEIGHT)
-		printf("angle: %d\n", degrees);
-	return (0);
-}
-

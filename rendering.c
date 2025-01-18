@@ -12,17 +12,6 @@
 
 #include "fdf.h"
 
-void	iso_projection(t_p3D *point)
-{
-	int	previous_x;
-	int	previous_y;
-
-	previous_x = point->x;
-	previous_y = point->y;
-	point->x = (previous_x - previous_y) * cos(0.523599);
-	point->y = -point->z + (previous_x + previous_y) * sin(0.523599);
-}
-
 void	draw_line(t_p3D start, t_p3D end, t_img *img)
 {
 	float	dx;

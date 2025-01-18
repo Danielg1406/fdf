@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:55:48 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/15 19:02:11 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 16:53:03 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_p3D	**allocate_grid(int width, int height)
 	return (grid);
 }
 
+// TODO: Handle Color
 void	parse_line_to_grid(t_p3D *row, char *line, int y)
 {
 	char	**cols;
@@ -69,36 +70,6 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y)
 		x++;
 	}
 	ft_free_split(cols, x);
-}
-
-void	apply_scaling_and_offset(t_map *map)
-{
-	float	hypo;
-	float	scaling_factor;
-	int		offset_x;
-	int		offset_y;
-	int		i;
-	int		j;
-
-	hypo = sqrt(map->width * map->width + map->height * map->height);
-	scaling_factor = 0.9 * fmin(WIDTH, HEIGHT) / hypo;
-	offset_x = WIDTH / 2 - (map->width * scaling_factor) / 2;
-	offset_y = HEIGHT / 2 - (map->height * scaling_factor) / 2;
-	i = 0;
-	while (i < map->height)
-	{
-		j = 0;
-		while (j < map->width)
-		{
-			map->grid[i][j].x = round(map->grid[i][j].x * scaling_factor)
-				+ offset_x;
-			map->grid[i][j].y = round(map->grid[i][j].y * scaling_factor)
-				+ offset_y;
-			map->grid[i][j].z = round(map->grid[i][j].z * scaling_factor);
-			j++;
-		}
-		i++;
-	}
 }
 
 int	ft_define_map(t_map *map, char *file_name)
@@ -133,6 +104,8 @@ int	ft_define_map(t_map *map, char *file_name)
 		y++;
 	}
 	close(fd);
-	apply_scaling_and_offset(map);
+	scale_map(map);
+	center_map(map);
+	apply_transformations(map);
 	return (0);
 }

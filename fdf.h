@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:04:41 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/18 16:51:04 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:03:00 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void				apply_transformations(t_map *map);
 int					handle_key(int keysym, t_mlx *mlx);
 
 // RENDERING
-void				draw_line(t_p3D start, t_p3D end, t_img *img);
-void				render_grid(t_map *map, t_img *img);
+void				draw_line(t_p3D start, t_p3D end, t_fdf *fdf);
+void				bresenham(t_p3D start, t_p3D end, t_fdf *fdf);
+void				render_grid(t_map *map, t_fdf *fdf);
 
 #endif

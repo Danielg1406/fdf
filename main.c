@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:09:05 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/18 16:51:21 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:01:55 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 	fdf.mlx.img.data = (int *)mlx_get_data_addr(fdf.mlx.img.img_ptr,
 			&fdf.mlx.img.bits_per_pixel, &fdf.mlx.img.size_line,
 			&fdf.mlx.img.endian);
-	render_grid(&fdf.map, &fdf.mlx.img);
+	render_grid(&fdf.map, &fdf);
 	mlx_put_image_to_window(fdf.mlx.mlx_ptr, fdf.mlx.win_ptr,
 		fdf.mlx.img.img_ptr, 0, 0);
 	mlx_hook(fdf.mlx.win_ptr, 17, 0, (int (*)())clean_exit, &fdf);

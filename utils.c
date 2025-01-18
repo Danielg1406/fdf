@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:24:16 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/18 16:52:09 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:03:40 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	apply_transformations(t_map *map)
 				+ map->offset_x;
 			map->grid[i][j].y = round(map->grid[i][j].y * map->scale)
 				+ map->offset_y;
+			printf("Transformed Grid[%d][%d]: (%f, %f, %f)\n", i, j,
+				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
 			j++;
 		}
 		i++;

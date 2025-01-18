@@ -6,53 +6,75 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:56:10 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/15 19:17:55 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:02:17 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	draw_line(t_p3D start, t_p3D end, t_img *img)
+void	draw_line(t_p3D start, t_p3D end, t_fdf *fdf)
 {
-	float	dx;
-	float	dy;
-	int		steps;
-	float	x_inc;
-	float	y_inc;
-	float	x;
-	float	y;
-	int		pixel_index;
-	int		i;
+	printf("Drawing line: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y,
+		end.x, end.y);
+	iso_projection(&start);
+	iso_projection(&end);
+	printf("Projected: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y, end.x,
+		end.y);
+	bresenham(start, end, fdf);
+}
 
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	if (fabs(dx) > fabs(dy))
-		steps = fabs(dx);
-	else
-		steps = fabs(dy);
-	x_inc = dx / steps;
-	y_inc = dy / steps;
-	x = start.x;
-	y = start.y;
-	i = 0;
-	while (i <= steps)
+void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+
+	printf("Bresenham: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y, end.x,
+		end.y);
+	dx = abs((int)end.x - (int)start.x);
+	dy = abs((int)end.y - (int)start.y);
+	sx = (start.x < end.x) ? 1 : -1;
+	sy = (start.y < end.y) ? 1 : -1;
+	err = dx - dy;
+	while ((int)start.x != (int)end.x || (int)start.y != (int)end.y)
 	{
-		pixel_index = (int)(y)*WIDTH + (int)(x);
-		if (pixel_index >= 0 && pixel_index < WIDTH * HEIGHT)
-			img->data[pixel_index] = 0xFFFFFF;
-		x += x_inc;
-		y += y_inc;
-		i++;
+		if ((int)start.x >= 0 && (int)start.x < WIDTH && (int)start.y >= 0
+			&& (int)start.y < HEIGHT)
+		{
+			fdf->mlx.img.data[(int)start.y * WIDTH
+				+ (int)start.x] = start.color;
+		}
+		e2 = 2 * err;
+		if (e2 > -dy)
+		{
+			err -= dy;
+			start.x += sx;
+		}
+		if (e2 < dx)
+		{
+			err += dx;
+			start.y += sy;
+		}
 	}
 }
 
-void	render_grid(t_map *map, t_img *img)
+void	render_grid(t_map *map, t_fdf *fdf)
 {
-	int		i;
-	int		j;
-	t_p3D	current;
-	t_p3D	right;
-	t_p3D	bottom;
+	int i;
+	int j;
+
+	printf("Rendering grid: Width=%d, Height=%d\n", map->width, map->height);
+	for (int i = 0; i < map->height; i++)
+	{
+		for (int j = 0; j < map->width; j++)
+		{
+			printf("Grid[%d][%d]: (%f, %f, %f)\n", i, j, map->grid[i][j].x,
+				map->grid[i][j].y, map->grid[i][j].z);
+		}
+	}
 
 	i = 0;
 	while (i < map->height)
@@ -60,20 +82,10 @@ void	render_grid(t_map *map, t_img *img)
 		j = 0;
 		while (j < map->width)
 		{
-			current = map->grid[i][j];
-			iso_projection(&current);
 			if (j < map->width - 1)
-			{
-				right = map->grid[i][j + 1];
-				iso_projection(&right);
-				draw_line(current, right, img);
-			}
+				draw_line(map->grid[i][j], map->grid[i][j + 1], fdf);
 			if (i < map->height - 1)
-			{
-				bottom = map->grid[i + 1][j];
-				iso_projection(&bottom);
-				draw_line(current, bottom, img);
-			}
+				draw_line(map->grid[i][j], map->grid[i + 1][j], fdf);
 			j++;
 		}
 		i++;

@@ -6,12 +6,13 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:55:48 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/18 16:53:03 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:42:21 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+// TODO: Handle Not Rectangular Maps
 int	ft_define_map_width(char *line)
 {
 	char	**cols;
@@ -104,7 +105,23 @@ int	ft_define_map(t_map *map, char *file_name)
 		y++;
 	}
 	close(fd);
+	for (int i = 0; i < map->height; i++)
+	{
+		for (int j = 0; j < map->width; j++)
+		{
+			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
+				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
+		}
+	}
+	for (int i = 0; i < map->height; i++)
+	{
+		for (int j = 0; j < map->width; j++)
+		{
+			iso_projection(&map->grid[i][j]);
+		}
+	}
 	scale_map(map);
+	define_limits(map);
 	center_map(map);
 	apply_transformations(map);
 	return (0);

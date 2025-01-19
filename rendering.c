@@ -6,7 +6,7 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:56:10 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/18 20:02:17 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:44:01 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 void	draw_line(t_p3D start, t_p3D end, t_fdf *fdf)
 {
-	printf("Drawing line: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y,
-		end.x, end.y);
-	iso_projection(&start);
-	iso_projection(&end);
-	printf("Projected: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y, end.x,
-		end.y);
 	bresenham(start, end, fdf);
 }
 
@@ -63,8 +57,8 @@ void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 
 void	render_grid(t_map *map, t_fdf *fdf)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	printf("Rendering grid: Width=%d, Height=%d\n", map->width, map->height);
 	for (int i = 0; i < map->height; i++)
@@ -75,7 +69,6 @@ void	render_grid(t_map *map, t_fdf *fdf)
 				map->grid[i][j].y, map->grid[i][j].z);
 		}
 	}
-
 	i = 0;
 	while (i < map->height)
 	{
@@ -83,9 +76,9 @@ void	render_grid(t_map *map, t_fdf *fdf)
 		while (j < map->width)
 		{
 			if (j < map->width - 1)
-				draw_line(map->grid[i][j], map->grid[i][j + 1], fdf);
+				bresenham(map->grid[i][j], map->grid[i][j + 1], fdf);
 			if (i < map->height - 1)
-				draw_line(map->grid[i][j], map->grid[i + 1][j], fdf);
+				bresenham(map->grid[i][j], map->grid[i + 1][j], fdf);
 			j++;
 		}
 		i++;

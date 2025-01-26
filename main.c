@@ -44,6 +44,12 @@ void	clean_exit(t_fdf *fdf)
 	exit(0);
 }
 
+int	clean_exit_wrapper(void *param)
+{
+	clean_exit((t_fdf *)param);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
@@ -64,7 +70,7 @@ int	main(int argc, char **argv)
 	render_grid(&fdf.map, &fdf);
 	mlx_put_image_to_window(fdf.mlx.mlx_ptr, fdf.mlx.win_ptr,
 		fdf.mlx.img.img_ptr, 0, 0);
-	mlx_hook(fdf.mlx.win_ptr, 17, 0, (int (*)())clean_exit, &fdf);
+	mlx_hook(fdf.mlx.win_ptr, 17, 0, clean_exit_wrapper, &fdf);
 	mlx_key_hook(fdf.mlx.win_ptr, handle_key, &fdf.mlx);
 	mlx_loop(fdf.mlx.mlx_ptr);
 	clean_exit(&fdf);

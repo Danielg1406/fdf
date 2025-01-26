@@ -114,8 +114,8 @@ void	apply_transformations(t_map *map)
 		{
 			map->grid[i][j].x += map->offset_x;
 			map->grid[i][j].y += map->offset_y;
-			printf("Transformed Grid[%d][%d]: (%f, %f, %f)\n", i, j,
-				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
+//			printf("Transformed Grid[%d][%d]: (%f, %f, %f)\n", i, j,
+//				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
 			j++;
 		}
 		i++;

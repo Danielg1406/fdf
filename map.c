@@ -39,7 +39,7 @@ t_p3D	**allocate_grid(int width, int height)
 	i = 0;
 	while (i < height)
 	{
-		grid[i] = (t_p3D *)malloc(sizeof(t_p3D) * width);
+		grid[i] = (t_p3D *)ft_calloc(width, sizeof(t_p3D));
 		if (!grid[i])
 		{
 			while (--i >= 0)
@@ -109,8 +109,8 @@ int	ft_define_map(t_map *map, char *file_name)
 	{
 		for (int j = 0; j < map->width; j++)
 		{
-			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
-				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
+//			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
+//				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
 		}
 	}
 	for (int i = 0; i < map->height; i++)

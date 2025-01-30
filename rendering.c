@@ -26,8 +26,8 @@ void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 	int	err;
 	int	e2;
 
-//	printf("Bresenham: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y, end.x,
-//		end.y);
+	printf("Bresenham: Start(%f, %f) -> End(%f, %f)\n", start.x, start.y, end.x,
+		end.y);
 	dx = abs((int)end.x - (int)start.x);
 	dy = abs((int)end.y - (int)start.y);
 	sx = (start.x < end.x) ? 1 : -1;
@@ -60,13 +60,13 @@ void	render_grid(t_map *map, t_fdf *fdf)
 	int	i;
 	int	j;
 
-//	printf("Rendering grid: Width=%d, Height=%d\n", map->width, map->height);
+	printf("Rendering grid: Width=%d, Height=%d\n", map->width, map->height);
 	for (int i = 0; i < map->height; i++)
 	{
 		for (int j = 0; j < map->width; j++)
 		{
-//			printf("Grid[%d][%d]: (%f, %f, %f)\n", i, j, map->grid[i][j].x,
-//				map->grid[i][j].y, map->grid[i][j].z);
+			printf("Grid[%d][%d]: (%f, %f, %f)\n", i, j, map->grid[i][j].x,
+				map->grid[i][j].y, map->grid[i][j].z);
 		}
 	}
 	i = 0;

@@ -56,6 +56,7 @@ void	define_limits(t_map *map)
 		}
 		i++;
 	}
+	printf("MinX=%d, MaxX=%d, MinY=%d, MaxY=%d, MinZ=%d, MaxZ=%d\n", map->min_x, map->max_x, map->min_y, map->max_y, map->min_z, map->max_z);
 }
 
 // TODO: FIX CENTERING AND SCALING
@@ -67,10 +68,8 @@ void	center_map(t_map *map)
 
 	max_pixel_width = abs(map->max_x - map->min_x);
 	max_pixel_height = abs(map->max_y - map->min_y);
-	// Consider z values in the total height calculation
 	total_height = max_pixel_height + abs(map->max_z - map->min_z);
 	map->offset_x = (WIDTH - max_pixel_width) / 2;
-	// Adjust y offset to account for z height
 	map->offset_y = (HEIGHT - total_height) / 2;
 	if (map->min_x < 0)
 		map->offset_x += abs(map->min_x);
@@ -88,11 +87,8 @@ void	scale_map(t_map *map)
 
 	max_scale_width = WIDTH / map->width;
 	max_scale_height = HEIGHT / map->height;
-	// Consider z values in scaling calculation
 	total_height = map->height + abs(map->max_z - map->min_z) / map->height;
 	max_scale_height = HEIGHT / total_height;
-	
-	// Use the smaller scale to ensure map fits both in width and height
 	map->scale = (max_scale_width < max_scale_height) ? 
 		max_scale_width / 2 : max_scale_height / 2;
 
@@ -104,7 +100,6 @@ void	scale_map(t_map *map)
 		{
 			map->grid[i][j].x = round(map->grid[i][j].x * map->scale);
 			map->grid[i][j].y = round(map->grid[i][j].y * map->scale);
-			// Scale z values proportionally
 			map->grid[i][j].z = round(map->grid[i][j].z * (map->scale / 2));
 			j++;
 		}

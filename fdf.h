@@ -64,7 +64,7 @@ typedef struct s_map
 	int		offset_x;
 	int		offset_y;
 	t_p3D	**grid;
-};
+}			t_map;
 
 typedef struct s_fdf
 {
@@ -75,7 +75,7 @@ typedef struct s_fdf
 // MAP
 int					ft_define_map_width(char *line);
 t_p3D				**allocate_grid(int width, int height);
-void				parse_line_to_grid(t_p3D *row, char *line, int y);
+void				parse_line_to_grid(t_p3D *row, char *line, int y, int map_width);
 int					ft_define_map(t_map *map, char *file_name);
 
 // UTILS

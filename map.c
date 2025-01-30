@@ -12,14 +12,18 @@
 
 #include "fdf.h"
 
-// TODO: Handle Not Rectangular Maps
 int	ft_define_map_width(char *line)
 {
 	char	**cols;
+	char	*trimmed_line;
 	int		width;
 
 	width = 0;
-	cols = ft_split(line, ' ');
+	trimmed_line = ft_strtrim(line, " \n");
+	if (!trimmed_line)
+		return (-1);
+	cols = ft_split(trimmed_line, ' ');
+	free(trimmed_line);
 	if (!cols)
 		return (-1);
 	while (cols[width])
@@ -53,7 +57,7 @@ t_p3D	**allocate_grid(int width, int height)
 }
 
 // TODO: Handle Color
-void	parse_line_to_grid(t_p3D *row, char *line, int y)
+void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 {
 	char	**cols;
 	int		x;
@@ -62,7 +66,7 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y)
 	if (!cols)
 		return ;
 	x = 0;
-	while (cols[x])
+	while (cols[x] && x < map_width)
 	{
 		row[x].x = x;
 		row[x].y = y;
@@ -100,7 +104,7 @@ int	ft_define_map(t_map *map, char *file_name)
 	y = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		parse_line_to_grid(map->grid[y], line, y);
+		parse_line_to_grid(map->grid[y], line, y, map->width);
 		free(line);
 		y++;
 	}
@@ -109,8 +113,8 @@ int	ft_define_map(t_map *map, char *file_name)
 	{
 		for (int j = 0; j < map->width; j++)
 		{
-//			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
-//				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
+			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
+				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
 		}
 	}
 	for (int i = 0; i < map->height; i++)

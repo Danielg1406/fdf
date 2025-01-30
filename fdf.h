@@ -52,17 +52,19 @@ typedef struct s_p3D
 
 typedef struct s_map
 {
-	int				height;
-	int				width;
-	int				scale;
-	int				min_x;
-	int				min_y;
-	int				max_x;
-	int				max_y;
-	int				offset_x;
-	int				offset_y;
-	t_p3D			**grid;
-}					t_map;
+	int		height;
+	int		width;
+	int		scale;
+	int		min_x;
+	int		min_y;
+	int		min_z;
+	int		max_x;
+	int		max_y;
+	int		max_z;
+	int		offset_x;
+	int		offset_y;
+	t_p3D	**grid;
+};
 
 typedef struct s_fdf
 {

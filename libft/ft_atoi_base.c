@@ -36,6 +36,8 @@ int	ft_atoi_base(const char *str, int base)
 			sign = -1;
 		str++;
 	}
+	if (base == 16 && *str == '0' && (*(str + 1) == 'x' || *(str + 1) == 'X'))
+		str += 2;
 	while (*str && ft_is_valid_char(*str, base))
 	{
 		result = result * base + ft_char_to_value(*str);

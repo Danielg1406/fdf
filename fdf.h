@@ -96,8 +96,11 @@ int					ft_define_map_width(char *line);
 int					open_file(const char *file_name);
 int					calculate_map_dimensions(t_map *map,
 						const char *file_name);
-// UTILS
+// ISOMETRIC PROJECTION
 void				iso_projection(t_p3D *point);
+
+// UTILS
+void				update_min_max(t_map *map, int i, int j);
 void				define_limits(t_map *map);
 void				center_map(t_map *map);
 void				scale_map(t_map *map);

@@ -56,7 +56,6 @@ t_p3D	**allocate_grid(int width, int height)
 	return (grid);
 }
 
-// TODO: Handle Color
 void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 {
 	char	**cols;

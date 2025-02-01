@@ -50,6 +50,18 @@ typedef struct s_p3D
 	unsigned int	color;
 }					t_p3D;
 
+typedef struct s_bresenham
+{
+	int				dx;
+	int				dy;
+	int				sx;
+	int				sy;
+	int				err;
+	int				e2;
+	int				distance;
+	int				step;
+}					t_bresenham;
+
 typedef struct s_map
 {
 	int				height;
@@ -82,7 +94,7 @@ int					ft_define_map(t_map *map, char *file_name);
 // MAP UTILS
 int					ft_define_map_width(char *line);
 int					open_file(const char *file_name);
-int					calculate_map_dimensions(t_map *map, 
+int					calculate_map_dimensions(t_map *map,
 						const char *file_name);
 // UTILS
 void				iso_projection(t_p3D *point);
@@ -95,7 +107,17 @@ void				apply_transformations(t_map *map);
 int					handle_key(int keysym, t_mlx *mlx);
 
 // RENDERING
+int					interpolate_color(int color_start, int color_end,
+						int step, int distance);
+void				plot_point(t_p3D start, t_p3D end, t_fdf *fdf,
+						t_bresenham bres);
+void				draw_line(t_p3D start, t_p3D end, t_fdf *fdf,
+						t_bresenham bres);
 void				bresenham(t_p3D start, t_p3D end, t_fdf *fdf);
 void				render_grid(t_map *map, t_fdf *fdf);
+
+// RENDERING UTILS
+void				init_bresenham(t_bresenham *bres, t_p3D start, t_p3D end);
+void				update_bresenham(t_p3D *start, t_bresenham *bres);
 
 #endif

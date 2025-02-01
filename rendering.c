@@ -27,49 +27,37 @@ int	interpolate_color(int color_start, int color_end, int step, int distance)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-// TODO: FIX IT TO PASS NORMINETTE
-void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
+void	plot_point(t_p3D start, t_p3D end, t_fdf *fdf, t_bresenham bres)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-	int	distance;
-	int	step;
 	int	color;
 
-	dx = abs((int)end.x - (int)start.x);
-	dy = abs((int)end.y - (int)start.y);
-	sx = (start.x < end.x) ? 1 : -1;
-	sy = (start.y < end.y) ? 1 : -1;
-	err = dx - dy;
-	distance = sqrt(dx * dx + dy * dy);
-	step = 0;
+	if ((int)start.x >= 0 && (int)start.x < WIDTH && (int)start.y >= 0
+		&& (int)start.y < HEIGHT)
+	{
+		color = interpolate_color(start.color, end.color, bres.step,
+				bres.distance);
+		fdf->mlx.img.data[(int)start.y * WIDTH + (int)start.x] = color;
+	}
+}
+
+void	draw_line(t_p3D start, t_p3D end, t_fdf *fdf, t_bresenham bres)
+{
+	bres.distance = sqrt(bres.dx * bres.dx + bres.dy * bres.dy);
+	bres.step = 0;
 	while ((int)start.x != (int)end.x || (int)start.y != (int)end.y)
 	{
-		if ((int)start.x >= 0 && (int)start.x < WIDTH && (int)start.y >= 0
-			&& (int)start.y < HEIGHT)
-		{
-			color = interpolate_color(start.color, end.color, step,
-					distance);
-			fdf->mlx.img.data[(int)start.y * WIDTH
-				+ (int)start.x] = color;
-		}
-		e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			start.x += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			start.y += sy;
-		}
-		step++;
+		plot_point(start, end, fdf, bres);
+		update_bresenham(&start, &bres);
+		bres.step++;
 	}
+}
+
+void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
+{
+	t_bresenham	bres;
+
+	init_bresenham(&bres, start, end);
+	draw_line(start, end, fdf, bres);
 }
 
 void	render_grid(t_map *map, t_fdf *fdf)

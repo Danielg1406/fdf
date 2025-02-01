@@ -41,7 +41,7 @@ void	clean_exit(t_fdf *fdf)
 		free(fdf->mlx.mlx_ptr);
 	}
 	i = -1;
-	while (++i < fdf->map.height; i++)
+	while (++i < fdf->map.height)
 		free(fdf->map.grid[i]);
 	free(fdf->map.grid);
 	exit(0);

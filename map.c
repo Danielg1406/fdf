@@ -60,6 +60,7 @@ t_p3D	**allocate_grid(int width, int height)
 void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 {
 	char	**cols;
+	char	**value_and_color;
 	int		x;
 
 	cols = ft_split(line, ' ');
@@ -68,10 +69,15 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 	x = 0;
 	while (cols[x] && x < map_width)
 	{
+		value_and_color = ft_split(cols[x], ',');
 		row[x].x = x;
 		row[x].y = y;
-		row[x].z = ft_atoi(cols[x]);
-		row[x].color = 0xFFFFFF;
+		row[x].z = ft_atoi(value_and_color[0]);
+		if (value_and_color[1])
+			row[x].color = ft_atoi_base(value_and_color[1], 16);
+		else
+			row[x].color = 0xFFFFFF;
+		ft_free_split(value_and_color, 2);
 		x++;
 	}
 	ft_free_split(cols, x);

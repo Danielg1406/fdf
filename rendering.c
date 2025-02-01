@@ -12,6 +12,21 @@
 
 #include "fdf.h"
 
+int	interpolate_color(int color_start, int color_end, int step, int distance)
+{
+	int	red;
+	int	green;
+	int	blue;
+
+	red = ((color_end >> 16) & 0xFF) * step / distance + ((color_start 
+		>> 16) & 0xFF) * (distance - step) / distance;
+	green = ((color_end >> 8) & 0xFF) * step / distance + ((color_start 
+		>> 8) & 0xFF) * (distance - step) / distance;
+	blue = (color_end & 0xFF) * step / distance + (color_start & 0xFF) * 
+		(distance - step) / distance;
+	return ((red << 16) || (green << 8) || blue);
+}
+
 // TODO: FIX IT TO PASS NORMINETTE
 void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 {
@@ -21,19 +36,27 @@ void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 	int	sy;
 	int	err;
 	int	e2;
+	int	distance;
+	int	step;
+	int	color;
 
 	dx = abs((int)end.x - (int)start.x);
 	dy = abs((int)end.y - (int)start.y);
 	sx = (start.x < end.x) ? 1 : -1;
 	sy = (start.y < end.y) ? 1 : -1;
 	err = dx - dy;
+	distance = sqrt(dx * dx + dy * dy);
+	step = 0;
+
 	while ((int)start.x != (int)end.x || (int)start.y != (int)end.y)
 	{
 		if ((int)start.x >= 0 && (int)start.x < WIDTH && (int)start.y >= 0
 			&& (int)start.y < HEIGHT)
 		{
+			color = interpolate_color(start.color, end.color, step,
+					distance);
 			fdf->mlx.img.data[(int)start.y * WIDTH
-				+ (int)start.x] = start.color;
+				+ (int)start.x] = color;
 		}
 		e2 = 2 * err;
 		if (e2 > -dy)
@@ -46,6 +69,7 @@ void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 			err += dx;
 			start.y += sy;
 		}
+		step++;
 	}
 }
 

@@ -52,18 +52,18 @@ typedef struct s_p3D
 
 typedef struct s_map
 {
-	int		height;
-	int		width;
-	int		scale;
-	int		min_x;
-	int		min_y;
-	int		min_z;
-	int		max_x;
-	int		max_y;
-	int		max_z;
-	int		offset_x;
-	int		offset_y;
-	t_p3D	**grid;
+	int				height;
+	int				width;
+	int				scale;
+	int				min_x;
+	int				min_y;
+	int				min_z;
+	int				max_x;
+	int				max_y;
+	int				max_z;
+	int				offset_x;
+	int				offset_y;
+	t_p3D			**grid;
 }			t_map;
 
 typedef struct s_fdf
@@ -75,10 +75,15 @@ typedef struct s_fdf
 // MAP
 int					ft_define_map_width(char *line);
 t_p3D				**allocate_grid(int width, int height);
-void				parse_line_to_grid(t_p3D *row, char *line, int y, 
+void				parse_line_to_grid(t_p3D *row, char *line, int y,
 						int map_width);
 int					ft_define_map(t_map *map, char *file_name);
 
+// MAP UTILS
+int					ft_define_map_width(char *line);
+int					open_file(const char *file_name);
+int					calculate_map_dimensions(t_map *map, 
+						const char *file_name);
 // UTILS
 void				iso_projection(t_p3D *point);
 void				define_limits(t_map *map);

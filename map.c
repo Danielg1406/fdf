@@ -12,26 +12,6 @@
 
 #include "fdf.h"
 
-int	ft_define_map_width(char *line)
-{
-	char	**cols;
-	char	*trimmed_line;
-	int		width;
-
-	width = 0;
-	trimmed_line = ft_strtrim(line, " \n");
-	if (!trimmed_line)
-		return (-1);
-	cols = ft_split(trimmed_line, ' ');
-	free(trimmed_line);
-	if (!cols)
-		return (-1);
-	while (cols[width])
-		width++;
-	ft_free_split(cols, width);
-	return (width);
-}
-
 t_p3D	**allocate_grid(int width, int height)
 {
 	t_p3D	**grid;
@@ -82,40 +62,36 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 	ft_free_split(cols, x);
 }
 
-int	ft_define_map(t_map *map, char *file_name)
+int	allocate_and_parse_grid(t_map *map, const char *file_name)
 {
 	int		fd;
 	char	*line;
 	int		y;
-	int		i;
-	int		j;
 
-	if (!ft_strnstr(file_name, ".fdf", ft_strlen(file_name)))
-		return (1);
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		return (1);
-	map->height = 0;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		if (map->height == 0)
-			map->width = ft_define_map_width(line);
-		map->height++;
-		free(line);
-	}
-	close(fd);
 	map->grid = allocate_grid(map->width, map->height);
 	if (!map->grid)
 		return (1);
-	fd = open(file_name, O_RDONLY);
+	fd = open_file(file_name);
+	if (fd == -1)
+		return (1);
 	y = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		parse_line_to_grid(map->grid[y], line, y, map->width);
 		free(line);
 		y++;
+		line = get_next_line(fd);
 	}
 	close(fd);
+	return (0);
+}
+
+void	apply_transformations_and_scale(t_map *map)
+{
+	int	i;
+	int	j;
+
 	define_limits(map);
 	i = -1;
 	while (++i < map->height)
@@ -127,5 +103,16 @@ int	ft_define_map(t_map *map, char *file_name)
 	scale_map(map);
 	center_map(map);
 	apply_transformations(map);
+}
+
+int	ft_define_map(t_map *map, char *file_name)
+{
+	if (!ft_strnstr(file_name, ".fdf", ft_strlen(file_name)))
+		return (1);
+	if (calculate_map_dimensions(map, file_name))
+		return (1);
+	if (allocate_and_parse_grid(map, file_name))
+		return (1);
+	apply_transformations_and_scale(map);
 	return (0);
 }

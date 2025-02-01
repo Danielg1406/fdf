@@ -18,12 +18,12 @@ int	interpolate_color(int color_start, int color_end, int step, int distance)
 	int	green;
 	int	blue;
 
-	red = ((color_end >> 16) & 0xFF) * step / distance + ((color_start 
-		>> 16) & 0xFF) * (distance - step) / distance;
-	green = ((color_end >> 8) & 0xFF) * step / distance + ((color_start 
-		>> 8) & 0xFF) * (distance - step) / distance;
-	blue = (color_end & 0xFF) * step / distance + (color_start & 0xFF) * 
-		(distance - step) / distance;
+	red = ((color_end >> 16) & 0xFF) * step / distance + ((color_start
+				>> 16) & 0xFF) * (distance - step) / distance;
+	green = ((color_end >> 8) & 0xFF) * step / distance + ((color_start
+				>> 8) & 0xFF) * (distance - step) / distance;
+	blue = (color_end & 0xFF) * step / distance + (color_start & 0xFF)
+		* (distance - step) / distance;
 	return ((red << 16) | (green << 8) | blue);
 }
 
@@ -47,7 +47,6 @@ void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 	err = dx - dy;
 	distance = sqrt(dx * dx + dy * dy);
 	step = 0;
-
 	while ((int)start.x != (int)end.x || (int)start.y != (int)end.y)
 	{
 		if ((int)start.x >= 0 && (int)start.x < WIDTH && (int)start.y >= 0

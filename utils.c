@@ -56,10 +56,8 @@ void	define_limits(t_map *map)
 		}
 		i++;
 	}
-	printf("MinX=%d, MaxX=%d, MinY=%d, MaxY=%d, MinZ=%d, MaxZ=%d\n", map->min_x, map->max_x, map->min_y, map->max_y, map->min_z, map->max_z);
 }
 
-// TODO: FIX CENTERING AND SCALING
 void	center_map(t_map *map)
 {
 	int	max_pixel_width;
@@ -79,31 +77,29 @@ void	center_map(t_map *map)
 
 void	scale_map(t_map *map)
 {
-	int	max_scale_width;
-	int	max_scale_height;
-	int	total_height;
+	float	max_scale_width;
+	float	max_scale_height;
+	float	max_scale_depth;
 	int	i;
 	int	j;
 
 	max_scale_width = WIDTH / map->width;
-	max_scale_height = HEIGHT / map->height;
-	total_height = map->height + abs(map->max_z - map->min_z) / map->height;
-	max_scale_height = HEIGHT / total_height;
+	max_scale_height = HEIGHT /  map->height;
+	max_scale_depth = HEIGHT / (map->max_z - map->min_z + 1);
 	map->scale = (max_scale_width < max_scale_height) ? 
-		max_scale_width / 2 : max_scale_height / 2;
-
-	i = 0;
-	while (i < map->height)
+		max_scale_width : max_scale_height;
+	map->scale = (map->scale < max_scale_depth) ? map->scale : max_scale_depth;
+	map->scale *= 0.5;
+	i = -1;
+	while (++i < map->height)
 	{
-		j = 0;
-		while (j < map->width)
+		j = -1;
+		while (++j < map->width)
 		{
 			map->grid[i][j].x = round(map->grid[i][j].x * map->scale);
 			map->grid[i][j].y = round(map->grid[i][j].y * map->scale);
 			map->grid[i][j].z = round(map->grid[i][j].z * (map->scale / 2));
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -120,8 +116,6 @@ void	apply_transformations(t_map *map)
 		{
 			map->grid[i][j].x += map->offset_x;
 			map->grid[i][j].y += map->offset_y;
-//			printf("Transformed Grid[%d][%d]: (%f, %f, %f)\n", i, j,
-//				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
 			j++;
 		}
 		i++;

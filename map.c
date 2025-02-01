@@ -82,6 +82,8 @@ int	ft_define_map(t_map *map, char *file_name)
 	int		fd;
 	char	*line;
 	int		y;
+	int		i;
+	int		j;
 
 	if (!ft_strnstr(file_name, ".fdf", ft_strlen(file_name)))
 		return (1);
@@ -109,23 +111,15 @@ int	ft_define_map(t_map *map, char *file_name)
 		y++;
 	}
 	close(fd);
-	for (int i = 0; i < map->height; i++)
+	define_limits(map);
+	i = -1;
+	while (++i < map->height)
 	{
-		for (int j = 0; j < map->width; j++)
-		{
-			printf("Initial Grid[%d][%d]: (%f, %f, %f)\n", i, j,
-				map->grid[i][j].x, map->grid[i][j].y, map->grid[i][j].z);
-		}
-	}
-	for (int i = 0; i < map->height; i++)
-	{
-		for (int j = 0; j < map->width; j++)
-		{
+		j = -1;
+		while (++j < map->width)
 			iso_projection(&map->grid[i][j]);
-		}
 	}
 	scale_map(map);
-	define_limits(map);
 	center_map(map);
 	apply_transformations(map);
 	return (0);

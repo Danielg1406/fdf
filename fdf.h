@@ -13,8 +13,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 1400
-# define HEIGHT 1000
+# define WIDTH 1800
+# define HEIGHT 1800
 
 # include "get_next_line/get_next_line.h"
 # include "libft.h"

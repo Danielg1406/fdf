@@ -1,3 +1,6 @@
+// TODO: Add Header
+#include "fdf.h"
+
 int	handle_key(int keysym, t_mlx *mlx)
 {
 	if (keysym == XK_Escape)

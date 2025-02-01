@@ -24,7 +24,7 @@ int	interpolate_color(int color_start, int color_end, int step, int distance)
 		>> 8) & 0xFF) * (distance - step) / distance;
 	blue = (color_end & 0xFF) * step / distance + (color_start & 0xFF) * 
 		(distance - step) / distance;
-	return ((red << 16) || (green << 8) || blue);
+	return ((red << 16) | (green << 8) | blue);
 }
 
 // TODO: FIX IT TO PASS NORMINETTE

@@ -12,11 +12,7 @@
 
 #include "fdf.h"
 
-//void	draw_line(t_p3D start, t_p3D end, t_fdf *fdf)
-//{
-//	bresenham(start, end, fdf);
-//}
-
+// TODO: FIX IT TO PASS NORMINETTE
 void	bresenham(t_p3D start, t_p3D end, t_fdf *fdf)
 {
 	int	dx;

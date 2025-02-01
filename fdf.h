@@ -75,7 +75,8 @@ typedef struct s_fdf
 // MAP
 int					ft_define_map_width(char *line);
 t_p3D				**allocate_grid(int width, int height);
-void				parse_line_to_grid(t_p3D *row, char *line, int y, int map_width);
+void				parse_line_to_grid(t_p3D *row, char *line, int y, 
+						int map_width);
 int					ft_define_map(t_map *map, char *file_name);
 
 // UTILS
@@ -84,6 +85,8 @@ void				define_limits(t_map *map);
 void				center_map(t_map *map);
 void				scale_map(t_map *map);
 void				apply_transformations(t_map *map);
+
+// HANDLERS
 int					handle_key(int keysym, t_mlx *mlx);
 
 // RENDERING

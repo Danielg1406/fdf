@@ -29,6 +29,8 @@ int	fdf_init(t_fdf *fdf)
 
 void	clean_exit(t_fdf *fdf)
 {
+	int	i;
+
 	if (fdf->mlx.img.img_ptr)
 		mlx_destroy_image(fdf->mlx.mlx_ptr, fdf->mlx.img.img_ptr);
 	if (fdf->mlx.win_ptr)
@@ -38,7 +40,8 @@ void	clean_exit(t_fdf *fdf)
 		mlx_destroy_display(fdf->mlx.mlx_ptr);
 		free(fdf->mlx.mlx_ptr);
 	}
-	for (int i = 0; i < fdf->map.height; i++)
+	i = -1;
+	while (++i < fdf->map.height; i++)
 		free(fdf->map.grid[i]);
 	free(fdf->map.grid);
 	exit(0);

@@ -23,6 +23,7 @@ void	iso_projection(t_p3D *point)
 	point->y = (previous_x + previous_y) * sin(0.523599) - point->z;
 }
 
+// TODO: REFACTOR TO FOLLOW NORMINETTE
 void	define_limits(t_map *map)
 {
 	int	i;
@@ -75,6 +76,7 @@ void	center_map(t_map *map)
 		map->offset_y += abs(map->min_y);
 }
 
+// TODO: MAKE IT FOLLOW NORMINETTE
 void	scale_map(t_map *map)
 {
 	float	max_scale_width;
@@ -84,7 +86,7 @@ void	scale_map(t_map *map)
 	int	j;
 
 	max_scale_width = WIDTH / map->width;
-	max_scale_height = HEIGHT /  map->height;
+	max_scale_height = HEIGHT / map->height;
 	max_scale_depth = HEIGHT / (map->max_z - map->min_z + 1);
 	map->scale = (max_scale_width < max_scale_height) ? 
 		max_scale_width : max_scale_height;
@@ -121,20 +123,10 @@ void	apply_transformations(t_map *map)
 		i++;
 	}
 }
+
 /*
 int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 */
-int	handle_key(int keysym, t_mlx *mlx)
-{
-	if (keysym == XK_Escape)
-	{
-		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-		mlx_destroy_display(mlx->mlx_ptr);
-		free(mlx->mlx_ptr);
-		exit(1);
-	}
-	return (0);
-}

@@ -33,10 +33,16 @@ int	ft_count_words(char const *s, char c)
 	return (count);
 }
 
-char	**ft_free_split(char **split, size_t j)
+char	**ft_free_split(char **split)
 {
-	while (j--)
-		free(split[j]);
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
 	free(split);
 	return (NULL);
 }
@@ -58,7 +64,7 @@ char	**ft_create_split(char const *s, char c, char **split)
 				k++;
 			split[j] = ft_substr(s, i, k);
 			if (!split[j])
-				return (ft_free_split(split, j));
+				return (ft_free_split(split));
 			j++;
 			i += k;
 		}

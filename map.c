@@ -56,10 +56,10 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 			row[x].color = ft_atoi_base(value_and_color[1], 16);
 		else
 			row[x].color = 0xFFFFFF;
-		ft_free_split(value_and_color, 2);
+		ft_free_split(value_and_color);
 		x++;
 	}
-	ft_free_split(cols, x);
+	ft_free_split(cols);
 }
 
 int	allocate_and_parse_grid(t_map *map, const char *file_name)

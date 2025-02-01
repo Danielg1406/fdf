@@ -27,7 +27,7 @@ int	ft_define_map_width(char *line)
 		return (-1);
 	while (cols[width])
 		width++;
-	ft_free_split(cols, width);
+	ft_free_split(cols);
 	return (width);
 }
 

@@ -51,7 +51,7 @@ void	parse_line_to_grid(t_p3D *row, char *line, int y, int map_width)
 		value_and_color = ft_split(cols[x], ',');
 		row[x].x = x;
 		row[x].y = y;
-		row[x].z = ft_atoi(value_and_color[0]);
+		row[x].z = ft_atoi(value_and_color[0]) * Z_FACTOR;
 		if (value_and_color[1])
 			row[x].color = ft_atoi_base(value_and_color[1], 16);
 		else

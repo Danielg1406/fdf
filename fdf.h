@@ -6,15 +6,17 @@
 /*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:04:41 by dgomez-a          #+#    #+#             */
-/*   Updated: 2025/01/19 17:44:35 by dgomez-a         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:09:36 by dgomez-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define WIDTH 1800
-# define HEIGHT 1800
+# define WIDTH 800
+# define HEIGHT 800
+# define Z_FACTOR 0.2
+# define SCALE_FACTOR 0.7
 
 # include "get_next_line/get_next_line.h"
 # include "libft.h"
@@ -66,7 +68,7 @@ typedef struct s_map
 {
 	int				height;
 	int				width;
-	int				scale;
+	float			scale;
 	int				min_x;
 	int				min_y;
 	int				min_z;
@@ -76,7 +78,7 @@ typedef struct s_map
 	int				offset_x;
 	int				offset_y;
 	t_p3D			**grid;
-}			t_map;
+}					t_map;
 
 typedef struct s_fdf
 {
@@ -94,24 +96,24 @@ int					ft_define_map(t_map *map, char *file_name);
 // MAP UTILS
 int					ft_define_map_width(char *line);
 int					open_file(const char *file_name);
-int					calculate_map_dimensions(t_map *map,
-						const char *file_name);
+int					calculate_map_dimensions(t_map *map, const char *file_name);
+
 // ISOMETRIC PROJECTION
 void				iso_projection(t_p3D *point);
+void				center_map(t_map *map);
+void				scale_map(t_map *map);
+void				apply_transformations(t_map *map);
 
 // UTILS
 void				update_min_max(t_map *map, int i, int j);
 void				define_limits(t_map *map);
-void				center_map(t_map *map);
-void				scale_map(t_map *map);
-void				apply_transformations(t_map *map);
 
 // HANDLERS
 int					handle_key(int keysym, t_mlx *mlx);
 
 // RENDERING
-int					interpolate_color(int color_start, int color_end,
-						int step, int distance);
+int					interpolate_color(int color_start, int color_end, int step,
+						int distance);
 void				plot_point(t_p3D start, t_p3D end, t_fdf *fdf,
 						t_bresenham bres);
 void				draw_line(t_p3D start, t_p3D end, t_fdf *fdf,

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dgomez-a <dgomez-a@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 13:10:21 by dgomez-a          #+#    #+#             */
+/*   Updated: 2025/02/04 13:12:52 by dgomez-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-// TODO: Add Header and do Norminette check
 static int	ft_is_valid_char(char c, int base)
 {
 	if (base <= 10)
 		return (c >= '0' && c < '0' + base);
-	return ((c >= '0' && c <= '9') || (c >= 'A' && c < 'A' + base - 10) || (c >= 'a' && c < 'a' + base - 10));
+	return ((c >= '0' && c <= '9') || (c >= 'A' && c < 'A' + base - 10)
+		|| (c >= 'a' && c < 'a' + base - 10));
 }
 
 static int	ft_char_to_value(char c)
@@ -28,7 +40,8 @@ int	ft_atoi_base(const char *str, int base)
 		return (0);
 	result = 0;
 	sign = 1;
-	while (*str && (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\r' || *str == '\v' || *str == '\f'))
+	while (*str && (*str == ' ' || *str == '\t' || *str == '\n'
+			|| *str == '\r' || *str == '\v' || *str == '\f'))
 		str++;
 	if (*str == '-' || *str == '+')
 	{
